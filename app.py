@@ -94,7 +94,7 @@ import pandas as pd
 st.image('images/heart_image.jpg', width=700)
 
 # Load model
-with open('catboost_model.txt', 'rb') as model_file:
+with open('models/catboost_model.txt', 'rb') as model_file:
     model = pickle.load(model_file)
 
 st.sidebar.header("Enter the details for prediction:🔍")
