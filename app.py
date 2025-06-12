@@ -2,7 +2,7 @@
 # import pickle
 # import pandas as pd
 
-# st.image('heart_images.jpg')
+# st.image('./heart_images.jpg')
 
 
 # with open('catboost_model.txt', 'rb') as model_file:
