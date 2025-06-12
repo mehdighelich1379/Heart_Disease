@@ -1,8 +1,8 @@
 pandas
 numpy
-sklearn
+scikit-learn
 seaborn
-pickle
 matplotlib
 catboost
-imbalance-learn
+imbalanced-learn
+streamlit
