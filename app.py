@@ -2,7 +2,7 @@
 # import pickle
 # import pandas as pd
 
-# st.image('https://www.darmankade.com/blog/wp-content/uploads/2019/12/Is-Thyroid-Dangerous10.jpg')
+# st.image('./images/IMG_20230518_120038_407 (2).jpg')
 
 
 # with open('catboost_model.txt', 'rb') as model_file:
