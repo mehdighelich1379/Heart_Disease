@@ -1,4 +1,12 @@
 ### Heart Disease Prediction Project using heart.csv Dataset
+## 🔗 Live Demo
+
+You can try the app live here:  
+[🌐 Click to open Heart Disease App](https://heart-disease-mehdighelich.streamlit.app)
+
+## 📸 Demo
+
+![App Screenshot](images/demo.png)
 
 #### Dataset Overview:
 The heart.csv dataset contains a variety of medical attributes that are used to predict whether a person has heart disease. The dataset consists of the following columns:
