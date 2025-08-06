@@ -19,7 +19,7 @@ sex = st.sidebar.number_input("Enter your sex", min_value=0, max_value=1, value=
 cp = st.sidebar.number_input("Enter your cp", min_value=0, max_value=3, value=0)
 trestbps = st.sidebar.number_input("Enter your trestbps", min_value=0, max_value=300, value=0)
 chol = st.sidebar.number_input("Enter your chol", min_value=0, max_value=500, value=0)
-fbs = st.sidebar.number_input("Enter your fbs", min_value=0, max_value=1, value=0)
+# fbs = st.sidebar.number_input("Enter your fbs", min_value=0, max_value=1, value=0)
 restecg = st.sidebar.number_input("Enter your restecg", min_value=0, max_value=2, value=0)
 thalach = st.sidebar.number_input("Enter your thalach", min_value=0, max_value=200, value=0)
 exang = st.sidebar.number_input("Enter your exang", min_value=0, max_value=1, value=0)
@@ -35,7 +35,7 @@ user_input = pd.DataFrame({
     'cp': [cp],
     'trestbps': [trestbps],
     'chol': [chol],
-    'fbs' : [fbs],
+    # 'fbs' : [fbs],
     'restecg': [restecg],
     'thalach': [thalach],
     'exang': [exang],
