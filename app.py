@@ -114,7 +114,10 @@
 #         st.markdown(line)
 
 
+import sklearn
+import streamlit as st
 
+st.write("scikit-learn version on Streamlit Cloud:", sklearn.__version__)
 
 import streamlit as st
 import joblib
