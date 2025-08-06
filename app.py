@@ -5,11 +5,11 @@ import pandas as pd
 # Display header image
 st.image('images/heart_image.jpg', width=700)
 
-# Load model
-# with open('models/catboost_model.txt', 'rb') as model_file:
-#     model = pickle.load(model_file)
+Load model
+with open('models/catboost_model.txt', 'rb') as model_file:
+    model = pickle.load(model_file)
 
-pipeline = joblib.load('./pipeline_heart.pkl')
+# pipeline = joblib.load('./pipeline_heart.pkl')
 
 st.sidebar.header("Enter the details for prediction:🔍")
 
@@ -46,7 +46,8 @@ user_input = pd.DataFrame({
 })
 
 # Predict
-prob = pipeline.predict_proba(user_input)[0][1]
+# prob = pipeline.predict_proba(user_input)[0][1]
+prob = model.predict_proba(user_input)[0][1]
 st.sidebar.markdown(f"🩺 **Probability of Heart Disease: `{prob:.2f}`**")
 
 # Prediction button
