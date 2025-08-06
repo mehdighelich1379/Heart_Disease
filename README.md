@@ -2,7 +2,7 @@
 ## 🔗 Live Demo
 
 You can try the app live here:  
-[🌐 Click to open Heart Disease App]([https://heart-disease-mehdighelich.streamlit.app])
+[🌐 Click to open Heart Disease App]([[https://heart-disease-mehdighelich.streamlit.app](https://heartdisease-mehdighelich.streamlit.app/)])
 
 ## 📸 Demo
 
