@@ -5,7 +5,7 @@ import pandas as pd
 # Display header image
 st.image('images/heart_image.jpg', width=700)
 
-Load model
+# Load model
 with open('models/catboost_model.txt', 'rb') as model_file:
     model = pickle.load(model_file)
 
