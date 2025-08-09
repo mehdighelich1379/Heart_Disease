@@ -9,9 +9,6 @@ You can try the app live here:
 ![App Screenshot](images/Demo1.png)
 ![App Screenshot](images/Demo2.png)
 
-
-📂 Project Structure
-
 📂 Project Structure
 ```bash
 Heart_Disease/
