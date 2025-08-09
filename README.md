@@ -123,7 +123,8 @@ Detailed "Doctor AI" analysis based on medical thresholds.
 
 📈 Model Performance (Final CatBoost Model)
 Classification Report:
-![result Screenshot](images/result.png)
+
+![Screenshot](images/result.png)
 
 💡 How to Run Locally
 
