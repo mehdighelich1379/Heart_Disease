@@ -161,9 +161,9 @@ if st.button(L("پیش‌بینی", "Predict")):
     high_risk_combo = (oldpeak > 2 and thal == 1) or (slope == 0 and thal == 1)
 
     if prob > 0.85 or high_risk_combo:
-        st.warning(L("🔴 ** جمع‌بندی:** ریسک بالا — حتما به متخصص قلب مراجعه کنید.", "🔴 **Summary:** High risk — cardiologist consultation recommended."))
+        st.warning(L("🔴 **جمع‌بندی:** ریسک بالا — مراجعه به متخصص قلب.", "🔴 **Summary:** High risk — cardiologist consultation recommended."))
     elif prob > 0.6:
-        st.info(L("🟠 **جمع‌بندی:** ریسک متوسط تا بالا — مراجعه به پزشک.", "🟠 **Summary:** Moderate–high risk — schedule a checkup."))
+        st.info(L("🟠 **جمع‌بندی:** ریسک متوسط تا بالا — معاینه را زمان‌بندی کنید.", "🟠 **Summary:** Moderate–high risk — schedule a checkup."))
     else:
         st.success(L("🟢 **جمع‌بندی:** ریسک پایین — سبک زندگی سالم را ادامه دهید.", "🟢 **Summary:** Low risk — keep a healthy lifestyle."))
 
