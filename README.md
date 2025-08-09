@@ -11,7 +11,7 @@ You can try the app live here:
 
 
 📂 Project Structure
-
+```bash
 Heart_Disease/
 │
 ├── images/                  # Project images for README & UI
