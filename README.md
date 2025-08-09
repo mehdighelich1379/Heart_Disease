@@ -11,6 +11,8 @@ You can try the app live here:
 
 
 📂 Project Structure
+
+📂 Project Structure
 ```bash
 Heart_Disease/
 │
@@ -121,11 +123,22 @@ Multi-language (Persian/English) support.
 
 Detailed "Doctor AI" analysis based on medical thresholds.
 
-## 📈 Model Performance (Final CatBoost Model)
+📈 Model Performance (Final CatBoost Model)
 Classification Report:
 
-![Screenshot](images/result.png)
 
+              precision    recall  f1-score   support
+0             0.89        0.86      0.88       29
+1             0.88        0.91      0.89       32
+
+accuracy                          0.89       61
+macro avg     0.89        0.88      0.89       61
+weighted avg  0.89        0.89      0.89       61
+Confusion Matrix:
+
+
+TN = 25   FP = 4
+FN = 3    TP = 29
 
 
 💡 How to Run Locally
@@ -152,3 +165,4 @@ CatBoost Classifier (Final model in production pipeline)
 🎲 Random patient data generator
 
 📉 Probability-based risk scoring
+
