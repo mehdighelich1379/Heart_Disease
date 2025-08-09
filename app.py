@@ -1,116 +1,162 @@
 import streamlit as st
 import pickle
+import joblib
 import pandas as pd
 
-# Display header image
-st.image('images/heart_image.jpg', width=700)
+# ---------- Page config ----------
+st.set_page_config(page_title="AI Heart Disease Prediction", page_icon="🫀", layout="wide")
 
-# Load model
-with open('models/catboost_model.txt', 'rb') as model_file:
-    model = pickle.load(model_file)
+# ---------- Styles (gray header bar) ----------
+st.markdown("""
+<style>
+.block-container{padding-top:0.6rem;}
+[data-testid="stHeader"]{background: rgba(0,0,0,0);}
+.hero{
+  background:#f3f4f6; /* light gray */
+  padding: 12px 16px;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+  text-align:center;
+  margin-bottom: 12px;
+}
+.hero h1{margin:0; font-size:1.6rem;}
+.hero p{margin:.25rem 0 0 0; color:#4b5563;}
+.figure-panel{
+  background:#f8fafc;
+  padding:10px;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+  margin-bottom:12px;
+}
+</style>
+""", unsafe_allow_html=True)
 
-# pipeline = joblib.load('./pipeline_heart.pkl')
+# ---------- Language selector (in sidebar, before inputs) ----------
+lang = st.sidebar.selectbox("🌐 Select Language / انتخاب زبان", ["فارسی", "English"])
 
-st.sidebar.header("Enter the details for prediction:🔍")
+def L(fa, en):
+    return fa if lang == "فارسی" else en
 
-# Input fields
-age = st.sidebar.number_input("Enter your age", min_value=0, max_value=100, value=0)
-sex = st.sidebar.number_input("Enter your sex", min_value=0, max_value=1, value=0)
-cp = st.sidebar.number_input("Enter your cp", min_value=0, max_value=3, value=0)
-trestbps = st.sidebar.number_input("Enter your trestbps", min_value=0, max_value=300, value=0)
-chol = st.sidebar.number_input("Enter your chol", min_value=0, max_value=500, value=0)
-# fbs = st.sidebar.number_input("Enter your fbs", min_value=0, max_value=1, value=0)
-restecg = st.sidebar.number_input("Enter your restecg", min_value=0, max_value=2, value=0)
-thalach = st.sidebar.number_input("Enter your thalach", min_value=0, max_value=200, value=0)
-exang = st.sidebar.number_input("Enter your exang", min_value=0, max_value=1, value=0)
-oldpeak = st.sidebar.number_input("Enter your oldpeak", min_value=0.0, max_value=5.0, value=0.0)
-slope = st.sidebar.number_input("Enter your slope", min_value=0, max_value=2, value=0)
-ca = st.sidebar.number_input("Enter your ca", min_value=0, max_value=4, value=0)
-thal = st.sidebar.number_input("Enter your thal", min_value=0, max_value=3, value=0)
+# Optional RTL tweak for Persian body (keeps layout tidy)
+if lang == "فارسی":
+    st.markdown("<div dir='rtl'>", unsafe_allow_html=True)
 
-# Create DataFrame for model input
-user_input = pd.DataFrame({
-    'age': [age],
-    'sex': [sex],
-    'cp': [cp],
-    'trestbps': [trestbps],
-    'chol': [chol],
-    # 'fbs' : [fbs],
-    'restecg': [restecg],
-    'thalach': [thalach],
-    'exang': [exang],
-    'oldpeak': [oldpeak],
-    'slope': [slope],
-    'ca': [ca],
-    'thal': [thal]
-})
+# ---------- Header (gray background, language-aware) ----------
+st.markdown(f"""
+<div class="hero">
+  <h1>🫀 {L("پیش‌بینی بیماری قلبی با هوش مصنوعی", "AI Heart Disease Prediction")}</h1>
+  <p>{L("این اپ با استفاده از یادگیری ماشین، احتمال ابتلا به بیماری قلبی را پیش‌بینی می‌کند.",
+         "This app predicts the probability of heart disease using machine learning.")}</p>
+</div>
+""", unsafe_allow_html=True)
 
-# Predict
-# prob = pipeline.predict_proba(user_input)[0][1]
-prob = model.predict_proba(user_input)[0][1]
-st.sidebar.markdown(f"🩺 **Probability of Heart Disease: `{prob:.2f}`**")
+# ---------- (Optional) Top image with soft background ----------
+st.markdown('<div class="figure-panel">', unsafe_allow_html=True)
+st.image('images/heart_image.jpg', use_container_width=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
-# Prediction button
-if st.button("Predict"):
-    # Main prediction result
+# ---------- Load model ----------
+model = joblib.load("heart_pipeline_model.pkl")
+
+
+# ---------- Sidebar inputs ----------
+st.sidebar.header(L("🔍 جزئیات بیمار را وارد کنید", "Enter Patient Details 🔍"))
+
+age      = st.sidebar.number_input(L("سن", "Age"), 0, 100, 0)
+sex      = st.sidebar.number_input(L("جنسیت (0=زن, 1=مرد)", "Sex (0=female, 1=male)"), 0, 1, 0)
+cp       = st.sidebar.number_input(L("نوع درد قفسه سینه (0-3)", "Chest Pain Type (0-3)"), 0, 3, 0)
+trestbps = st.sidebar.number_input(L("فشار خون استراحت", "Resting BP"), 0, 300, 0)
+chol     = st.sidebar.number_input(L("کلسترول", "Cholesterol"), 0, 500, 0)
+fbs      = st.sidebar.number_input(L("قند خون ناشتا > 120 (0/1)", "FBS > 120 (0/1)"), 0, 1, 0)
+restecg  = st.sidebar.number_input(L("ECG در استراحت (0-2)", "Resting ECG (0-2)"), 0, 2, 0)
+thalach  = st.sidebar.number_input(L("حداکثر ضربان قلب", "Max Heart Rate (thalach)"), 0, 200, 0)
+exang    = st.sidebar.number_input(L("آنژین حین ورزش (0/1)", "Exercise-induced Angina (0/1)"), 0, 1, 0)
+oldpeak  = st.sidebar.number_input(L("افت ST (oldpeak)", "ST Depression (oldpeak)"), 0.0, 6.0, 0.0, step=0.1)
+slope    = st.sidebar.number_input(L("شیب ST (0-2)", "ST Slope (0-2)"), 0, 2, 0)
+ca       = st.sidebar.number_input(L("تعداد رگ‌های مسدود (0-4)", "Number of Major Vessels (0-4)"), 0, 4, 0)
+thal     = st.sidebar.number_input(L("Thal (0-3)", "Thal (0-3)"), 0, 3, 0)
+
+# ---------- Pack input for model ----------
+user_df = pd.DataFrame([{
+    'age': age, 'sex': sex, 'cp': cp, 'trestbps': trestbps, 'chol': chol,
+    'fbs': fbs, 'restecg': restecg, 'thalach': thalach, 'exang': exang,
+    'oldpeak': oldpeak, 'slope': slope, 'ca': ca, 'thal': thal
+}])
+
+# ---------- Predict probability ----------
+prob = model.predict_proba(user_df)[0][1]
+st.sidebar.markdown(L(
+    f"🩺 **احتمال ابتلا به بیماری قلبی: `{prob:.2f}`**",
+    f"🩺 **Heart Disease Probability: `{prob:.2f}`**"
+))
+
+# ---------- Predict button + Doctor AI (detailed) ----------
+if st.button(L("پیش‌بینی", "Predict")):
+    # Main result banner
     if prob >= 0.5:
-        st.error("🚨 The patient has a high probability of having heart disease.")
+        st.error(L("🚨 احتمال بالای بیماری قلبی وجود دارد.", "🚨 High probability of heart disease."))
     else:
-        st.success("✅ The patient has a low probability of having heart disease.")
+        st.success(L("✅ احتمال پایین بیماری قلبی.", "✅ Low probability of heart disease."))
 
-    st.markdown("### 🧠 Doctor AI Analysis")
+    st.markdown(L("### 🧠 تحلیل دکتر هوشمند", "### 🧠 Doctor AI Analysis"))
 
-    # Start analysis
     analysis = []
 
+    # Cholesterol
     if chol > 240:
-        analysis.append("• **High cholesterol** detected. Risk of arterial plaque buildup.")
+        analysis.append(L("• **کلسترول بالا**؛ خطر رسوب پلاک در عروق.", "• **High cholesterol**; risk of arterial plaque."))
     else:
-        analysis.append("• Cholesterol is within **normal limits**.")
+        analysis.append(L("• کلسترول در **محدوده طبیعی**.", "• Cholesterol within **normal limits**."))
 
+    # Blood Pressure
     if trestbps > 140:
-        analysis.append("• **Elevated blood pressure.** Consider monitoring or treatment.")
+        analysis.append(L("• **فشار خون بالا**؛ نیاز به پایش/درمان.", "• **Elevated blood pressure**; consider monitoring/treatment."))
     else:
-        analysis.append("• Blood pressure is in a **healthy range**.")
+        analysis.append(L("• فشار خون در **محدوده سالم**.", "• Blood pressure in a **healthy range**."))
 
+    # Exercise-induced angina
     if exang == 1:
-        analysis.append("• **Exercise-induced angina present** — potential heart issue.")
+        analysis.append(L("• **آنژین ناشی از ورزش**؛ احتمال مشکل قلبی.", "• **Exercise-induced angina**; potential heart issue."))
     else:
-        analysis.append("• No angina during exercise — **good sign**.")
+        analysis.append(L("• بدون آنژین ورزشی — **نشانه خوب**.", "• No exercise-induced angina — **good sign**."))
 
+    # Max heart rate
     if thalach < 100:
-        analysis.append("• **Low max heart rate** — may reflect low exercise capacity.")
+        analysis.append(L("• **حداکثر ضربان قلب پایین**؛ احتمال ظرفیت ورزشی کم.", "• **Low max heart rate**; possibly low exercise capacity."))
     elif thalach > 140:
-        analysis.append("• **Excellent heart rate response.**")
+        analysis.append(L("• **پاسخ قلبی بسیار خوب**.", "• **Excellent heart rate response.**"))
     else:
-        analysis.append("• **Moderate heart rate** — consider further testing.")
+        analysis.append(L("• **حداکثر ضربان قلب متوسط**؛ بررسی تکمیلی توصیه می‌شود.", "• **Moderate heart rate** — consider further testing."))
 
+    # ST depression
     if oldpeak > 2:
-        analysis.append("• **High ST depression (oldpeak > 2)** — sign of possible ischemia.")
+        analysis.append(L("• **افت ST بالا (oldpeak>2)**؛ احتمال ایسکمی.", "• **High ST depression (oldpeak>2)**; possible ischemia."))
     else:
-        analysis.append("• ST depression is within **safe range**.")
+        analysis.append(L("• افت ST در **بازه امن**.", "• ST depression within **safe range**."))
 
+    # Slope
     if slope == 0:
-        analysis.append("• **Flat slope in ECG** — may indicate abnormal heart function.")
+        analysis.append(L("• **شیب ST تخت** در ECG؛ می‌تواند غیرطبیعی باشد.", "• **Flat ST slope** on ECG; can be abnormal."))
 
+    # Thal
     if thal == 1:
-        analysis.append("• **Fixed defect in Thallium scan** — risk of past heart damage.")
+        analysis.append(L("• **نقص ثابت در Thallium**؛ احتمال آسیب قبلی قلب.", "• **Fixed defect on Thallium scan**; risk of prior heart damage."))
 
-    # Check for high-risk combination
+    # High-risk combinations
     high_risk_combo = (oldpeak > 2 and thal == 1) or (slope == 0 and thal == 1)
-    if high_risk_combo:
-        analysis.append("⚠️ **High-risk combination detected. Recommend cardiologist consultation.**")
 
-    # Final AI summary
+    # Summary
     if prob > 0.85 or high_risk_combo:
-        st.warning("🔴 **Doctor AI Summary:** High risk — recommend medical attention.")
+        st.warning(L("🔴 **جمع‌بندی:** ریسک بالا — مراجعه به متخصص قلب.", "🔴 **Summary:** High risk — cardiologist consultation recommended."))
     elif prob > 0.6:
-        st.info("🟠 **Doctor AI Summary:** Moderate to high risk — schedule medical checkup.")
+        st.info(L("🟠 **جمع‌بندی:** ریسک متوسط تا بالا — معاینه را زمان‌بندی کنید.", "🟠 **Summary:** Moderate–high risk — schedule a checkup."))
     else:
-        st.success("🟢 **Doctor AI Summary:** Low risk — keep a healthy lifestyle.")
+        st.success(L("🟢 **جمع‌بندی:** ریسک پایین — سبک زندگی سالم را ادامه دهید.", "🟢 **Summary:** Low risk — keep a healthy lifestyle."))
 
-    # Show analysis
+    # Render bullet lines
     for line in analysis:
         st.markdown(line)
 
-
+# Close RTL wrapper for Persian
+if lang == "فارسی":
+    st.markdown("</div>", unsafe_allow_html=True)
