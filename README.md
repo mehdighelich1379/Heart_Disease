@@ -6,7 +6,8 @@ You can try the app live here:
 
 ## 📸 Demo
 
-![App Screenshot](images/demo.png)
+![App Screenshot](images/Demo1.png)
+![App Screenshot](images/Demo2.png)
 
 #### Dataset Overview:
 The heart.csv dataset contains a variety of medical attributes that are used to predict whether a person has heart disease. The dataset consists of the following columns:
