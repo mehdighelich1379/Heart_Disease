@@ -1,11 +1,10 @@
 pandas
 numpy
 scikit-learn
-seaborn
-matplotlib
+joblib
 catboost
-imbalanced-learn
 streamlit
+
 
 
 
