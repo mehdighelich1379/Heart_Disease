@@ -1,4 +1,4 @@
-### Heart Disease Prediction Project using heart.csv Dataset
+### 🫀 AI Heart Disease Prediction
 ## 🔗 Live Demo
 
 You can try the app live here:  
@@ -9,107 +9,143 @@ You can try the app live here:
 ![App Screenshot](images/Demo1.png)
 ![App Screenshot](images/Demo2.png)
 
-#### Dataset Overview:
-The heart.csv dataset contains a variety of medical attributes that are used to predict whether a person has heart disease. The dataset consists of the following columns:
 
-1. age: The age of the patient.
-2. sex: Gender of the patient (male or female).
-3. cp: Chest pain type experienced by the patient.
-4. trestbps: Resting blood pressure (in mm Hg).
-5. chol: Serum cholesterol level.
-6. fbs: Fasting blood sugar level (1 if greater than 120 mg/dl, else 0).
-7. restecg: Resting electrocardiographic results.
-8. thalach: Maximum heart rate achieved during exercise.
-9. exang: Whether the patient experienced exercise-induced angina (1 if yes, 0 if no).
-10. oldpeak: Depression induced by exercise relative to rest.
-11. slope: The slope of the peak exercise ST segment.
-12. ca: Number of major vessels colored by fluoroscopy.
-13. thal: A blood disorder associated with heart disease (3 = normal; 6 = fixed defect; 7 = reversible defect).
-14. target: The target variable indicating whether the patient has heart disease (1 = heart disease, 0 = no heart disease).
+📂 Project Structure
 
----
+Heart_Disease/
+│
+├── images/                  # Project images for README & UI
+│   ├── Demo1.png
+│   ├── Demo2.png
+│   └── heart_image.jpg
+│
+├── models/                  # Saved model files
+│   └── catboost_model.txt
+│
+├── notebooks/               # Jupyter notebooks for experiments
+│   ├── catboost_info/
+│   ├── Final_Heart_Model.ipynb
+│   ├── heart_pipeline_model.pkl
+│   └── pipeline.ipynb
+│
+├── scale/
+│   └── scaler.txt
+│
+├── src/                     # Source code
+│   ├── data/
+│   │   └── preprocess.py    # Preprocessing pipeline
+│   ├── metrics/
+│   │   └── evaluate.py      # Evaluation utilities
+│   └── models/
+│       └── train_model.py   # Model training script
+│
+├── app.py                   # Streamlit web application
+├── main.py                  # Entry point for running training/evaluation
+├── heart_pipeline_model.pkl # Saved trained pipeline
+├── pipeline_heart.pkl       # Alternative saved pipeline
+├── requirements.txt         # Python dependencies
+└── README.md                # Project documentation
 
-### Project Steps:
 
-1. Exploratory Data Analysis (EDA):
-   - I started by performing EDA to analyze the structure of the dataset and the relationships between the features. This helped identify patterns and detect any issues such as missing data.
-   - After examining the dataset, I found that there were no missing values in the features.
+📊 Dataset Overview
+We used the heart.csv dataset containing medical attributes to predict heart disease.
 
-2. Data Visualization:
-   - I visualized the features to gain insights into the distribution and relationships between them:
-     - The fbs (Fasting Blood Sugar) column was visualized using a displacement plot to understand its distribution.
-     - The chol (Cholesterol) column was also visualized using a similar displacement plot to understand the distribution of cholesterol levels.
+Features:
 
-3. Data Scaling:
-   - I applied StandardScaler to scale the data so that the features were on the same scale, which is important for models like SVM and others that rely on distance calculations.
+age – Age of the patient
 
-4. Data Splitting:
-   - The dataset was split into training and testing sets using a 75-25 split (75% for training and 25% for testing).
+sex – Gender (0=female, 1=male)
 
-5. Noise Removal using LOF (Local Outlier Factor):
-   - To improve the quality of the data, I used the LOF (Local Outlier Factor) technique to remove noisy data points. This helps in eliminating outliers that could distort the model's learning process.
+cp – Chest pain type (0–3)
 
-6. Balancing the Data with SMOTETomek:
-   - The dataset was imbalanced (more healthy patients than those with heart disease). To address this, I applied SMOTETomek, which combines the SMOTE technique (oversampling the minority class) with Tomek Links (removing redundant samples from the majority class) to balance the dataset.
+trestbps – Resting blood pressure
 
-7. Hyperparameter Tuning using Grid Search:
-   - I performed Grid Search on the SVC (Support Vector Classifier) algorithm to find the best hyperparameters.
-   - After tuning the parameters, the model achieved 93% accuracy on the test data.
-   - I then plotted the Confusion Matrix, which showed the following:
-     - 24 instances were correctly predicted as non-diseased (healthy).
-     - 4 healthy instances were wrongly predicted as diseased.
-     - 27 diseased instances were correctly predicted as diseased.
+chol – Serum cholesterol (mg/dl)
 
-8. ROC Curve:
-   - I plotted the ROC Curve, which showed an AUC of 93%, indicating that the SVC model performed well in distinguishing between healthy and diseased patients.
+fbs – Fasting blood sugar > 120 mg/dl (0/1)
 
-9. CatBoost Algorithm:
-   - To explore whether another algorithm would improve accuracy, I used CatBoost, a gradient boosting algorithm.
-   - The model was configured with the following parameters:
+restecg – Resting ECG results (0–2)
 
-- Learning rate: 0.05
-     - Max Depth: 8
-     - Metric: Recall
-     - Bagging temperature: 0.2
-     - OD type: Iter
-     - Metric period: 75
-     - OD wait: 100
-     - Random state: 42
-   - The CatBoost model achieved 100% accuracy on the training data and 96% accuracy on the test data.
+thalach – Max heart rate achieved
 
-10. Confusion Matrix (CatBoost):
-    - For the CatBoost model, the Confusion Matrix showed:
-      - 26 healthy instances were correctly predicted as healthy.
-      - 0 diseased patients were predicted as healthy (no false negatives).
-      - 2 healthy patients were wrongly predicted as diseased.
-      - 27 diseased patients were correctly predicted as diseased.
+exang – Exercise-induced angina (0/1)
 
-11. Cross-Validation:
-    - I performed cross-validation to ensure the robustness of the CatBoost model. The results were consistent with the performance on the test data.
+oldpeak – ST depression induced by exercise
 
-12. Feature Importance (CatBoost):
-    - I plotted the Feature Importance to identify which features were the most influential in predicting heart disease. Features such as age, thalach (maximum heart rate), and chol (cholesterol) were identified as the most important.
+slope – Slope of the peak exercise ST segment
 
-13. ROC Curve (CatBoost):
-    - I also plotted the ROC Curve for the CatBoost model, which showed an AUC of 96%, indicating excellent model performance.
+ca – Number of major vessels (0–4)
 
-14. Model Saving:
-    - Finally, I saved both the SVC and CatBoost models along with the StandardScaler used for scaling the data, so that they can be reused in the future.
+thal – Thalassemia type (0–3)
 
----
+target – Presence of heart disease (1=yes, 0=no)
 
-### Conclusion:
+🚀 Project Workflow
+Exploratory Data Analysis (EDA)
 
-This project demonstrates how machine learning techniques can be applied to predict heart disease based on medical features. The SVC algorithm performed well with a 93% accuracy on the test data, and the CatBoost model outperformed it with 96% accuracy. Techniques like SMOTETomek for balancing the data, LOF for noise removal, and Grid Search for hyperparameter tuning helped improve the overall performance. The final models, SVC and CatBoost, are both robust and ready for deployment in healthcare applications for heart disease prediction.
+Analyzed dataset distributions and feature correlations.
 
----
+No missing values detected.
 
-### Skills Demonstrated:
-1. Data Preprocessing: Handling missing data, scaling features, and encoding categorical variables.
-2. Feature Engineering: Balancing the dataset using SMOTETomek and feature importance analysis.
-3. Model Building: Implementing and tuning models like SVC and CatBoost for classification tasks.
-4. Hyperparameter Tuning: Using Grid Search to find the optimal hyperparameters for models.
-5. Model Evaluation: Evaluating models using metrics like accuracy, confusion matrix, ROC curve, and AUC.
-6. Model Deployment: Saving models and scalers for future use.
+Data Visualization
 
-This project showcases a solid understanding of the machine learning pipeline, from data preprocessing to model evaluation, and provides a good foundation for applying machine learning in real-world healthcare scenarios.
+Plotted histograms and density plots for key medical indicators.
+
+Data Preprocessing
+
+Applied StandardScaler for scaling numerical features.
+
+Removed noise using Local Outlier Factor (LOF).
+
+Balanced classes using SMOTETomek.
+
+Model Training
+
+CatBoost Classifier as the final production model.
+
+Evaluation Metrics
+
+Accuracy, Recall, F1-Score, Confusion Matrix, ROC Curve.
+
+Feature Importance
+
+Most influential: age, thalach, chol.
+
+Deployment
+
+Built a Streamlit app for user-friendly predictions.
+
+Input form for patient details.
+
+Multi-language (Persian/English) support.
+
+Detailed "Doctor AI" analysis based on medical thresholds.
+
+📈 Model Performance (Final CatBoost Model)
+Classification Report:
+
+m
+💡 How to Run Locally
+
+# Clone repository
+git clone https://github.com/yourusername/Heart_Disease.git
+cd Heart_Disease
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the Streamlit app
+streamlit run app.py
+🧠 Model Used
+CatBoost Classifier (Final model in production pipeline)
+
+✨ Features of the Web App
+🌐 Persian/English language switch
+
+🖼 Medical image-based UI
+
+📊 Doctor AI detailed analysis
+
+🎲 Random patient data generator
+
+📉 Probability-based risk scoring
