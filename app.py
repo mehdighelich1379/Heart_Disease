@@ -84,7 +84,7 @@ user_df = pd.DataFrame([{
 }])
 
 # ---------- Predict probability ----------
-prob = model.predict_proba(user_df)[0][1]
+prob = 1 - model.predict_proba(user_df)[0][1]
 st.sidebar.markdown(L(
     f"🩺 **احتمال ابتلا به بیماری قلبی: `{prob:.2f}`**",
     f"🩺 **Heart Disease Probability: `{prob:.2f}`**"
