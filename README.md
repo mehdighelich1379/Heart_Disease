@@ -121,10 +121,11 @@ Multi-language (Persian/English) support.
 
 Detailed "Doctor AI" analysis based on medical thresholds.
 
-📈 Model Performance (Final CatBoost Model)
+## 📈 Model Performance (Final CatBoost Model)
 Classification Report:
 
 ![Screenshot](images/result.png)
+
 
 
 💡 How to Run Locally
